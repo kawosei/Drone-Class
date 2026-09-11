@@ -7,7 +7,7 @@ from gradysim.simulator.handler.communication import CommunicationHandler, Commu
 from gradysim.simulator.handler.mobility import MobilityHandler
 
 def main():
-    config = SimulationConfiguration(duration=60,real_time=True)
+    config = SimulationConfiguration(duration=30,real_time=True)
 
     builder = SimulationBuilder(config)
 
@@ -20,7 +20,7 @@ def main():
     builder.add_node(Protocol_1, (-100, 0, 0))
     
 
-    builder.add_handler(CommunicationHandler(CommunicationMedium(transmission_range=25)))
+    builder.add_handler(CommunicationHandler(CommunicationMedium(transmission_range=50)))
 
     builder.add_handler(MobilityHandler())
 
