@@ -1,5 +1,5 @@
 import asyncio
-from DTN.Protocol import Drone
+from FloodingProtocol import Drone
 from gradysim.simulator.handler.timer import TimerHandler
 from gradysim.simulator.handler.visualization import VisualizationHandler, VisualizationConfiguration
 from gradysim.simulator.simulation import SimulationBuilder, SimulationConfiguration
