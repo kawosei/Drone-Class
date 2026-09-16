@@ -1,5 +1,5 @@
 import asyncio
-from MobilityProtocol import Protocol_1
+from DTN.Protocol import Drone
 from gradysim.simulator.handler.timer import TimerHandler
 from gradysim.simulator.handler.visualization import VisualizationHandler, VisualizationConfiguration
 from gradysim.simulator.simulation import SimulationBuilder, SimulationConfiguration
@@ -11,13 +11,13 @@ def main():
 
     builder = SimulationBuilder(config)
 
-    builder.add_node(Protocol_1, (0, 0, 0))
-    builder.add_node(Protocol_1, (100, 50, 0))
-    builder.add_node(Protocol_1, (0, 100, 0))
-    builder.add_node(Protocol_1, (0, 100, 0))
-    builder.add_node(Protocol_1, (-100, 100, 0))
-    builder.add_node(Protocol_1, (-100, 50, 0))
-    builder.add_node(Protocol_1, (-100, 0, 0))
+    builder.add_node(Drone, (0, 0, 0))
+    builder.add_node(Drone, (100, 50, 0))
+    builder.add_node(Drone, (0, 100, 0))
+    builder.add_node(Drone, (0, 100, 0))
+    builder.add_node(Drone, (-100, 100, 0))
+    builder.add_node(Drone, (-100, 50, 0))
+    builder.add_node(Drone, (-100, 0, 0))
     
 
     builder.add_handler(CommunicationHandler(CommunicationMedium(transmission_range=50)))
