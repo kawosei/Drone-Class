@@ -1,5 +1,5 @@
 import asyncio
-from Protocol import Drone
+from FloodingProtocol import Drone
 from gradysim.simulator.handler.timer import TimerHandler
 from gradysim.simulator.handler.visualization import VisualizationHandler, VisualizationConfiguration
 from gradysim.simulator.simulation import SimulationBuilder, SimulationConfiguration
@@ -7,7 +7,7 @@ from gradysim.simulator.handler.communication import CommunicationHandler, Commu
 from gradysim.simulator.handler.mobility import MobilityHandler
 
 def main():
-    config = SimulationConfiguration(duration=30,real_time=True)
+    config = SimulationConfiguration(duration=20,real_time=True)
 
     builder = SimulationBuilder(config)
 
@@ -16,18 +16,18 @@ def main():
     builder.add_node(Drone, (0, 100, 10))
     builder.add_node(Drone, (0, 120, 0))
     builder.add_node(Drone, (-100, 100, 10))
-    builder.add_node(Drone, (-100, 50, 10))
+    builder.add_node(Drone, (-100, 50, 0))
     builder.add_node(Drone, (-100, 0, 10))
     
 
-    builder.add_handler(CommunicationHandler(CommunicationMedium(transmission_range=50)))
+    builder.add_handler(CommunicationHandler(CommunicationMedium(transmission_range=100)))
 
     builder.add_handler(MobilityHandler())
 
     builder.add_handler(TimerHandler())
 
     builder.add_handler(VisualizationHandler(
-        VisualizationConfiguration(open_browser=True)
+        VisualizationConfiguration(x_range=(-100,100), y_range=(-100,100),z_range=(0,10), open_browser=True)
     ))
 
     simulation = builder.build()

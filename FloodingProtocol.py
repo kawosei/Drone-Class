@@ -8,43 +8,37 @@ from gradysim.simulator.extension.visualization_controller import VisualizationC
 
 class Drone(IProtocol):
     waypoints = {
-        0: [(100,0,10), (0,0,10)],
-        1: [(100,100,10), (100,0,10)],
-        2: [(100,100,10), (0,100,10)],
-        3: [(0,100,0)],
-        4: [(0,100,10), (-100,100,10)],
-        5: [(-100,0,10), (-100,100,10)],
-        6: [(0,0,10), (-100,0,10)]
+            0: [(100,0,10), (0,0,10)],
+            1: [(100,100,10), (100,0,10)],
+            2: [(100,100,10), (0,100,10)],
+            3: [(0,100,0)],
+            4: [(0,100,10), (-100,100,10)],
+            5: [(-100,0,10), (-100,100,10)],
+            6: [(0,0,10), (-100,0,10)]
     }
     def initialize(self):
         self.mission = MissionMobilityPlugin(self, MissionMobilityConfiguration(speed=40, loop_mission=LoopMission.RESTART))
         self.mission.start_mission(self.waypoints[self.provider.get_id()])
-        self.Sent = False
         self.vis = VisualizationController(self)
+        self.enviado = False
 
         if self.provider.get_id() == 0:
             self.provider.schedule_timer("",
-                self.provider.current_time() + 1
+            self.provider.current_time() + 1
             )
+            
 
     def handle_timer(self, timer: str):
         self.provider.send_communication_command(BroadcastMessageCommand("Red Velvet"))
         self.provider.schedule_timer("",self.provider.current_time() + 1)
-
+        self.vis.paint_node(0,(255,0,0))
+        
     def handle_packet(self, message: str):
-        self.vis.paint_node(self.provider.get_id(), (255,0,0))
-        if not self.provider.get_id() == 6:
-            if message == "Red Velvet":
-                self.provider.schedule_timer("", self.provider.current_time() + 1)
-        if self.provider.get_id() == 6:
-            self.provider.cancel_timer("")
-            logging.info("Simulação Concluída")
+        if self.enviado:
             return
-        if self.Sent:
-            return
-        self.Sent = True
-        self.provider.send_communication_command(BroadcastMessageCommand("Doce de Leite"))
-
+        self.enviado = True
+        self.vis.paint_node(self.provider.get_id(), (255, 0, 0))
+        self.provider.send_communication_command(BroadcastMessageCommand("Red Velvet"))
 
     def handle_telemetry(self, telemetry: Telemetry):
         pass
